@@ -1,7 +1,10 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Playfair_Display, Inter } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { AuthProvider } from "@/lib/auth-context"
+import { CartProvider } from "@/lib/cart-context"
+import { Toaster } from "sonner"
 import "./globals.css"
 
 const playfair = Playfair_Display({
@@ -17,10 +20,16 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: "Jorab Moon - Artistic Socks for Creative Souls",
+  title: "Jorab Moon - Crypto-Powered Sock Marketplace",
   description:
-    "Discover colorful, artistic socks that express your unique style. Premium quality socks with bold designs.",
-  generator: "v0.app",
+    "Buy and sell artistic socks with TON cryptocurrency. Premium quality socks with bold designs, powered by blockchain payments.",
+  keywords: ["socks", "crypto", "TON", "marketplace", "fashion", "blockchain"],
+}
+
+export const viewport: Viewport = {
+  themeColor: "#1a1a1a",
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -29,9 +38,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${playfair.variable} ${inter.variable} font-sans antialiased`}>
-        {children}
+        <AuthProvider>
+          <CartProvider>
+            {children}
+            <Toaster position="bottom-right" />
+          </CartProvider>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>
