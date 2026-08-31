@@ -2,11 +2,11 @@
 
 # dependencies
 /node_modules
-
+__pycache__/
 # next.js
 /.next/
 /out/
-
+.idea/
 # production
 /build
 
